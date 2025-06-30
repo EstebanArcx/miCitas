@@ -1,0 +1,92 @@
+{% extends '/bases/base_dashboard.html' %}
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_company.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_company.html' %}
+{% endblock %}
+
+{% block contenido %}
+
+<header class="px-4 md:px-6 py-4 flex justify-between items-center flex-wrap gap-2">
+    <h1 class="text-2xl font-bold text-white">Agenda de Citas</h1>
+</header>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="px-4 md:px-6 mb-4 space-y-2" id="flash-messages">
+      {% for category, message in messages %}
+        <div class="p-3 rounded text-white relative transition-opacity duration-500
+          {% if category == 'success' %} bg-green-600
+          {% elif category == 'danger' %} bg-red-600
+          {% else %} bg-gray-600 {% endif %}">
+          {{ message }}
+          <button class="absolute top-1 right-2 text-white text-sm close-flash">✖</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<main class="flex-1 px-4 md:px-10 pb-6 max-w-5xl mx-auto w-full space-y-8">
+
+    {% if citas %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {% for cita in citas %}
+            <div class="bg-[#1a1a1a] p-4 rounded shadow h-full flex flex-col justify-between border border-primary hover:ring-2 hover:ring-primary transition">
+                <div class="space-y-2 text-gray-300">
+                    <p><strong>Cliente:</strong> {{ cita['usuario_nombre'] }}</p>
+                    <p><strong>Teléfono:</strong> {{ cita['usuario_telefono'] }}</p>
+                    <p><strong>Servicio:</strong> {{ cita['servicio_nombre'] }} ({{ cita['duracion'] }} min)</p>
+                    <p><strong>Fecha:</strong> {{ cita['fecha'] }}</p>
+                    <p><strong>Hora:</strong> {{ cita['hora'] }}</p>
+                    <p><strong>Estado:</strong> 
+                        {% if cita['estado'] == 'pendiente' %}
+                            <span class="text-yellow-400">Pendiente</span>
+                        {% elif cita['estado'] == 'completada' %}
+                            <span class="text-green-400">Completada</span>
+                        {% elif cita['estado'] == 'cancelada' %}
+                            <span class="text-red-400">Cancelada</span>
+                        {% else %}
+                            {{ cita['estado'] }}
+                        {% endif %}
+                    </p>
+                    {% if cita['notas'] %}
+                    <p><strong>Notas:</strong> {{ cita['notas'] }}</p>
+                    {% endif %}
+                </div>
+
+                {% if cita['estado'] == 'pendiente'%}
+                    <div class="flex justify-end mt-4 space-x-2">
+                        
+                        <a href="{{ url_for('company_appointments.cancel_appointment', cita_id=cita['id']) }}"
+                        class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 rounded text-sm">
+                            Cancelar
+                        </a>
+
+    
+                    </div>
+                    {% endif %}
+                        {% if cita['estado'] == 'cancelada'%}
+                        <div class="flex justify-end mt-4 space-x-2">
+
+                            <a href="{{ url_for('company_appointments.delete_appointment', cita_id=cita['id']) }}"
+                            class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-sm"
+                            onclick="return confirm('¿Seguro que deseas eliminar esta cita permanentemente?');">
+                                Eliminar
+                            </a>
+
+                    </div>
+                    {% endif %}
+
+
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-400 text-center">No hay citas registradas.</p>
+    {% endif %}
+
+</main>
+
+{% endblock %}

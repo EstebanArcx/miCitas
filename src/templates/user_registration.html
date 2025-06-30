@@ -1,0 +1,48 @@
+{% extends './bases/base_auth.html' %}
+
+{% block content %}
+<div class="w-full max-w-md flex-1 flex flex-col justify-center items-center mt-6">
+  
+  <img src="{{ url_for('static', filename='imgs/logo-back.png') }}" alt="Registro Usuario" class="w-full rounded mb-6 shadow-md">
+  <h2 class="text-2xl font-bold text-primary mb-6">Registro de Usuario</h2>
+
+  <form method="POST" class="w-full space-y-4">
+    
+    <div>
+      <label for="name" class="block mb-1">Nombre completo</label>
+      <input type="text" id="name" name="name" required
+             class="w-full p-3 rounded bg-gray-900 border border-primary text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary">
+    </div>
+
+    <div>
+      <label for="email" class="block mb-1">Correo electrónico</label>
+      <input type="email" id="email" name="email" required
+             class="w-full p-3 rounded bg-gray-900 border border-primary text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary">
+    </div>
+
+    <div>
+      <label for="phone" class="block mb-1">Teléfono</label>
+      <input type="text" id="phone" name="phone"
+             class="w-full p-3 rounded bg-gray-900 border border-primary text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary">
+    </div>
+
+    <div>
+      <label for="password" class="block mb-1">Contraseña</label>
+      <input type="password" id="password" name="password" required
+             class="w-full p-3 rounded bg-gray-900 border border-primary text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary">
+    </div>
+
+    <button type="submit"
+            class="w-full bg-primary hover:bg-accent-bg text-black font-semibold py-3 rounded transition">
+      Registrarse
+    </button>
+
+  </form>
+
+  <p class="mt-6 text-center text-sm text-gray-400">
+    ¿Ya tienes cuenta?
+    <a href="/login" class="text-accent-bg hover:underline">Inicia sesión aquí</a>
+  </p>
+
+</div>
+{% endblock %}

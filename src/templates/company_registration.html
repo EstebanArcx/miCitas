@@ -1,0 +1,49 @@
+{% extends './bases/base_auth.html' %}
+
+
+{% block content %}
+<div class="w-full max-w-md flex-1 flex flex-col justify-center items-center mt-6">
+  <img src="{{ url_for('static', filename='imgs/logo-back.png') }}" alt="Registro Empresa" class="w-full rounded mb-6 shadow-md">
+  <h2 class="text-2xl font-bold text-primary mb-6">Registro de Empresa</h2>
+
+  <form method="POST" class="w-full space-y-4">
+    <div>
+      <label for="nombre" class="block mb-1">Nombre del negocio</label>
+      <input type="text" id="nombre" name="name" required
+             class="w-full p-3 rounded bg-gray-900 border border-primary text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary">
+    </div>
+
+    <div>
+      <label for="correo" class="block mb-1">Correo electrónico</label>
+      <input type="email" id="correo" name="email" required
+             class="w-full p-3 rounded bg-gray-900 border border-primary text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary">
+    </div>
+
+    <div>
+      <label for="tipo" class="block mb-1">Tipo de negocio</label>
+      <select id="tipo" name="type" required
+              class="w-full p-3 rounded bg-gray-900 border border-primary text-white focus:outline-none focus:ring-2 focus:ring-primary">
+        <option value="Veterinaria">Veterinaria</option>
+        <option value="Peluquería">Peluquería</option>
+        <option value="Medicina">Medicina</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="contrasena" class="block mb-1">Contraseña</label>
+      <input type="password" id="contrasena" name="password" required
+             class="w-full p-3 rounded bg-gray-900 border border-primary text-white focus:outline-none focus:ring-2 focus:ring-primary">
+    </div>
+
+    <button type="submit"
+            class="w-full bg-primary hover:bg-accent-bg text-black font-semibold py-3 rounded transition">
+      Registrar Empresa
+    </button>
+  </form>
+
+  <p class="mt-6 text-center text-sm text-gray-400">
+    ¿Ya tienes cuenta?
+    <a href="/login" class="text-accent-bg hover:underline">Inicia sesión aquí</a>
+  </p>
+</div>
+{% endblock %}

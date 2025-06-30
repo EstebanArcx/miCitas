@@ -1,0 +1,130 @@
+{% extends '/bases/base_dashboard.html' %}
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_company.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_company.html' %}
+{% endblock %}
+
+{% block contenido %}
+
+<div class="flex flex-col min-h-screen">
+
+    <!-- Header superior -->
+    <header class="px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+            <a href="{{ url_for('company_services.company_services') }}"
+                class="flex items-center justify-center w-10 h-10 rounded-full bg-[#1a1a1a] border border-accent hover:bg-accent hover:text-black transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <h1 class="text-xl font-semibold">Editar Servicio</h1>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="px-4 md:px-6 mb-4 space-y-2" id="flash-messages">
+          {% for category, message in messages %}
+            <div class="p-3 rounded text-white relative transition-opacity duration-500
+              {% if category == 'success' %} bg-green-600
+              {% elif category == 'danger' %} bg-red-600
+              {% else %} bg-gray-600 {% endif %}">
+              {{ message }}
+              <button class="absolute top-1 right-2 text-white text-sm close-flash">✖</button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Formulario de edición -->
+    <main class="flex-1 px-4 md:px-6 pb-6 w-full space-y-6">
+
+        <h2 class="text-xl font-bold text-primary mb-4">Editar Servicio</h2>
+
+        <form method="POST" class="space-y-6">
+
+            <div>
+                <label class="block mb-1">Nombre</label>
+                <input type="text" name="nombre" required 
+                    value="{{ servicio['nombre'] }}"
+                    class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+            </div>
+
+            <div>
+                <label class="block mb-1">Descripción</label>
+                <textarea name="descripcion"
+                    class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">{{ servicio['descripcion'] }}</textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1">Duración (min)</label>
+                    <input type="number" name="duracion" required min="1"
+                        value="{{ servicio['duracion'] }}"
+                        class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                </div>
+
+                <div>
+                    <label class="block mb-1">Precio ($)</label>
+                    <input type="number" name="precio" required min="0" step="0.01"
+                        value="{{ servicio['precio'] }}"
+                        class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                </div>
+            </div>
+
+            <div>
+                <label class="block mb-1 font-semibold text-white">Turnos Disponibles</label>
+
+                {% if 'mañana' in available_turns %}
+                    <label class="inline-flex items-center space-x-2 mr-4">
+                        <input type="checkbox" name="turnos[]" value="mañana" class="accent-primary"
+                        {% if 'mañana' in servicio['turnos'] %}checked{% endif %}>
+                        <span>Mañana</span>
+                    </label>
+                {% endif %}
+
+                {% if 'tarde' in available_turns %}
+                    <label class="inline-flex items-center space-x-2 mr-4">
+                        <input type="checkbox" name="turnos[]" value="tarde" class="accent-primary"
+                        {% if 'tarde' in servicio['turnos'] %}checked{% endif %}>
+                        <span>Tarde</span>
+                    </label>
+                {% endif %}
+
+                {% if not available_turns %}
+                    <p class="text-red-500 mt-2">Debes configurar horarios de atención para poder ofertar turnos.</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label class="block mb-1 font-semibold text-white">Estado</label>
+                <select name="activo"
+                    class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                    <option value="1" {% if servicio['activo'] %}selected{% endif %}>Activo</option>
+                    <option value="0" {% if not servicio['activo'] %}selected{% endif %}>Inactivo</option>
+                </select>
+            </div>
+
+            <div class="flex justify-between mt-4 flex-wrap gap-2">
+                <a href="{{ url_for('company_services.company_services') }}"
+                    class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 w-full sm:w-auto text-center">
+                    Cancelar
+                </a>
+                <button type="submit"
+                    class="px-4 py-2 bg-primary text-black rounded hover:bg-accent w-full sm:w-auto">
+                    Guardar Cambios
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+{% endblock %}

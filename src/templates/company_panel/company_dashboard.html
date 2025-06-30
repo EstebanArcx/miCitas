@@ -1,0 +1,48 @@
+{% extends '/bases/base_dashboard.html' %}
+
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_company.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_company.html' %}
+{% endblock %}
+
+
+
+{% block contenido %}
+
+
+
+  <!-- Dashboard widgets -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-[#1a1a1a] p-6 rounded shadow">
+      <h3 class="text-sm text-gray-400">Citas de hoy</h3>
+      <p class="text-3xl font-bold text-primary">5</p>
+    </div>
+    <div class="bg-[#1a1a1a] p-6 rounded shadow">
+      <h3 class="text-sm text-gray-400">Clientes registrados</h3>
+      <p class="text-3xl font-bold text-primary">38</p>
+    </div>
+    <div class="bg-[#1a1a1a] p-6 rounded shadow">
+      <h3 class="text-sm text-gray-400">Servicios activos</h3>
+      <p class="text-3xl font-bold text-primary">6</p>
+    </div>
+  </div>
+
+  <!-- Citas próximas -->
+  <section class="bg-[#1a1a1a] p-6 rounded shadow">
+    <h2 class="text-lg font-bold mb-4 text-primary">Próximas Citas</h2>
+    <ul class="space-y-3">
+      <li class="flex justify-between border-b border-gray-700 pb-2">
+        <span>Marta López - Corte Canino</span>
+        <span class="text-sm text-gray-400">Hoy, 3:00 PM</span>
+      </li>
+      <li class="flex justify-between border-b border-gray-700 pb-2">
+        <span>Andrés Gómez - Vacunación</span>
+        <span class="text-sm text-gray-400">Hoy, 4:30 PM</span>
+      </li>
+    </ul>
+  </section>
+
+
+{% endblock %}

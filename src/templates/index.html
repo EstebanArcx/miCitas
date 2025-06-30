@@ -1,0 +1,58 @@
+{% extends './bases/base_landing.html' %}
+
+
+
+{% block content %}
+
+
+<!-- Hero principal -->
+<section class="py-20 px-6 bg-[#0d0d0d]">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+    <div class="text-center md:text-left">
+      <h2 class="text-4xl text-accent font-bold mb-4">Tus citas a un clic de distancia</h2>
+      <p class="mb-6">Gestiona tus citas, mejora tu negocio y ofrece una mejor experiencia a tus clientes.</p>
+      <a href="#" class="bg-primary text-white px-6 py-3 rounded hover:bg-primary-hover">Empieza ahora gratis</a>
+    </div>
+    <div class="flex justify-center">
+      <img src="{{ url_for('static', filename='imgs/hero.png') }}" alt="Ilustración de citas" class="max-h-80 w-auto rounded shadow-lg">
+    </div>
+  </div>
+</section>
+
+<!-- Características principales -->
+<section class="py-16 px-6 bg-[#1a1a1a]">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+    <div>
+      <h3 class="text-xl text-primary font-semibold mb-2">Calendario fácil</h3>
+      <p>Controla tus citas en un solo lugar, planifica vacaciones y horarios del equipo.</p>
+      <img src="{{ url_for('static', filename='imgs/cal.png') }}" alt="Calendario fácil" class="mx-auto h-40 w-auto mb-4">
+    </div>
+    <div>
+      <h3 class="text-xl text-primary font-semibold mb-2 ">Gestor de clientes</h3>
+      <p>Lleva el control de tus clientes y sus reservas con facilidad.</p>
+      <img src="{{ url_for('static', filename='imgs/gestion.png') }}" alt="Gestor de clientes" class="mx-auto h-40 w-auto mb-4">
+    </div>
+    <div>
+      <h3 class="text-xl text-primary font-semibold mb-2">Recordatorios automáticos</h3>
+      <p>Envía notificaciones para reducir ausencias y mejorar la puntualidad.</p>
+      <img src="{{ url_for('static', filename='imgs/record.png') }}" alt="Recordatorios automáticos" class="mx-auto h-40 w-auto mb-4">
+    </div>
+  </div>
+</section>
+
+<!-- Testimonios -->
+<section class="py-16 px-6 bg-[#0d0d0d]">
+  <h2 class="text-2xl text-accent font-bold text-center mb-8">Lo que dicen nuestros usuarios</h2>
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-[#1a1a1a] p-6 rounded">
+      <p>"Increíble herramienta. Mis clientes ahora agendan sin llamarme y todo está organizado."</p>
+      <p class="text-primary mt-2">- Mariana G., Peluquería Belleza+</p>
+    </div>
+    <div class="bg-[#1a1a1a] p-6 rounded">
+      <p>"Desde que uso MiAgenda he duplicado mis citas y tengo más tiempo libre."</p>
+      <p class="text-primary mt-2">- José R., Veterinaria PetCare</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

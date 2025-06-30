@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  {% include '/fragments/head.html' %}
+</head>
+
+<body class="bg-black text-white font-[Nunito] min-h-screen flex">
+
+  <!-- Overlay para cerrar menú móvil -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+
+  <!-- Aside lateral -->
+ <aside id="aside-menu" class="fixed md:static inset-y-0 left-0 w-64 bg-[#1a1a1a] p-6 flex flex-col items-center overflow-y-auto md:h-auto md:overflow-y-auto transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50">
+
+
+    
+    <!-- Círculos decorativos -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute bg-primary opacity-10 rounded-full w-32 h-32 top-8 left-4 animate-breathing-lg"></div>
+      <div class="absolute bg-accent-bg opacity-10 rounded-full w-24 h-24 bottom-8 left-10 animate-breathing-md delay-200"></div>
+      <div class="absolute bg-accent opacity-10 rounded-full w-20 h-20 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-breathing-sm delay-400"></div>
+    </div>
+
+    <img src="{{ url_for('static', filename='imgs/logo-back.png') }}" alt="Micitas Logo" class="h-10 z-10 mb-10">
+
+    {% if sidebar_fragment %}
+      {% include sidebar_fragment %}
+    {% endif %}
+
+    <a href="/logout" class="text-sm text-gray-400 hover:text-red-400 mt-10 z-10">Cerrar sesión</a>
+  </aside>
+
+  <!-- Contenido principal -->
+  <div class="flex-1 flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-[#0d0d0d] px-4 md:px-6 py-4 flex justify-between items-center border-b border-gray-700">
+      <div class="flex items-center space-x-4">
+        <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <h1 class="text-xl text-primary font-semibold">力</h1>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <span class="text-sm text-gray-300 hidden sm:inline">
+           <strong>HOLA, {{ session['username'].upper() }}</strong>
+        </span>
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-primary">
+        
+        {% if session['user_type'] == 'company' %}
+          <img src="{{ url_for('static', filename='imgs/company_imgs/' ~ session['user_img']) if session['user_type'] == 'company' and session['user_img'] else url_for('static', filename='imgs/company_imgs/placeholder_profile.png') }}" class="object-cover w-full h-full" alt="Perfil">
+        {% elif session['user_type'] == 'user' %}
+            <img src="{{ url_for('static', filename='imgs/user_imgs/' ~ session['user_img']) if session['user_type']== 'user' and session['user_img'] else url_for('static', filename='imgs/user_imgs/placeholder_profile.png') }}" class="object-cover w-full h-full" alt="Perfil">
+        {% endif %}
+        
+    </div>
+      </div>
+    </header>
+
+    <!-- Contenido -->
+    <main class="flex-1 flex flex-col p-4 md:p-6 space-y-6">
+      {% block contenido %}
+      {% endblock %}
+    </main>
+
+    {% include '/fragments/copyright.html' %}
+  </div>
+
+<script src="{{ url_for('static', filename='js/dash_menu_toggle.js') }}"></script>
+<script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
+
+</body>
+</html>

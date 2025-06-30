@@ -1,0 +1,202 @@
+{% extends '/bases/base_dashboard.html' %}
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_company.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_company.html' %}
+{% endblock %}
+
+{% block contenido %}
+
+<h2 class="text-2xl font-bold text-white mb-6">Configuración de la Empresa</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="mb-4 space-y-2" id="flash-messages">
+      {% for category, message in messages %}
+        <div class="p-3 rounded text-white relative transition-opacity duration-500
+          {% if category == 'success' %} bg-green-600
+          {% elif category == 'danger' %} bg-red-600
+          {% else %} bg-gray-600 {% endif %}">
+
+          {{ message }}
+
+          <!-- Botón de cerrar -->
+          <button class="absolute top-1 right-2 text-white text-sm close-flash">✖</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
+<!-- FORMULARIO SOLO PARA IMÁGENES -->
+<form method="POST" enctype="multipart/form-data" class="space-y-4 w-full" action="{{ url_for('company_panel.update_images') }}">
+    
+    <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+        
+        <!-- Imagen de perfil -->
+        <div class="flex flex-col items-center space-y-2 text-center">
+            <div class="w-24 h-24 bg-gray-800 rounded-full overflow-hidden flex items-center justify-center">
+                <img id="previewprofile" src="{{ url_for('static', filename='imgs/company_imgs/' ~ company['img_perfil']) if company['img_perfil'] else '/static/imgs/company_imgs/placeholder_profile.png' }}" class="object-cover w-full h-full" alt="Perfil">
+            </div>
+            <label class="border border-primary cursor-pointer text-primary rounded hover:bg-primary hover:text-white px-3 py-1 text-sm transition">
+                Elegir imagen
+                <input type="file" name="profile_img" accept="image/*" class="hidden" onchange="previewImage(this, 'previewprofile')">
+            </label>
+        </div>
+
+        <!-- Imagen del negocio -->
+        <div class="flex flex-col items-center space-y-2 text-center">
+            <div class="w-32 h-24 bg-gray-800 rounded overflow-hidden flex items-center justify-center">
+                <img id="previewCompany" src="{{ url_for('static', filename='imgs/company_imgs/' ~ company['img_negocio']) if company['img_negocio'] else '/static/imgs/company_imgs/placeholder_company.png' }}" class="object-cover w-full h-full" alt="Negocio">
+            </div>
+            <label class="border border-primary cursor-pointer text-primary rounded hover:bg-primary hover:text-white px-3 py-1 text-sm transition">
+                Elegir imagen
+                <input type="file" name="company_img" accept="image/*" class="hidden" onchange="previewImage(this, 'previewCompany')">
+            </label>
+        </div>
+
+    </div>
+
+    <!-- Botón para guardar solo las imágenes -->
+    <div class="w-full mt-4 flex justify-center">
+        <button type="submit" class="bg-primary text-black py-2 px-4 rounded hover:bg-primary-hover transition">Guardar imágenes</button>
+    </div>
+
+</form>
+
+
+<form method="POST" enctype="multipart/form-data" class="space-y-8 w-full">
+
+    <!-- Información básica -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+        
+        <div>
+            <label for="name" class="block mb-1">Nombre del negocio</label>
+            <input type="text" id="name" name="name" value="{{ company['nombre']}}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label for="owner" class="block mb-1">Nombre del propietario</label>
+            <input type="text" id="owner" name="owner" value="{{ company['propietario'] or '' }}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label for="email" class="block mb-1">Correo electrónico</label>
+            <input type="email" id="email" name="email" value="{{ company['correo'] }}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label for="telephone" class="block mb-1">Teléfono</label>
+            <input type="tel" id="telephone" name="telephone" value="{{ company['telefono'] or '' }}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div class="md:col-span-2">
+            <label for="address" class="block mb-1">Dirección</label>
+            <input type="text" id="address" name="address" value="{{ company['direccion'] or '' }}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label for="type" class="block mb-1">Tipo de negocio</label>
+            <select id="type" name="type" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                <option value="Veterinaria" {% if company['tipo'] == 'Veterinaria' %}selected{% endif %}>Veterinaria</option>
+                <option value="Peluquería" {% if company['tipo'] == 'Peluquería' %}selected{% endif %}>Peluquería</option>
+                <option value="Medicina" {% if company['tipo'] == 'Medicina' %}selected{% endif %}>Medicina</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="password" class="block mb-1">Cambiar contraseña</label>
+            <input type="password" id="password" name="password" placeholder="Opcional" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+    </div>
+
+    <!-- Horarios de atención -->
+    <div class="w-full space-y-4">
+        
+        <label class="block mb-1 font-bold text-lg text-primary">Horarios de Atención</label>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+        <div>
+            <label class="block mb-1">Horario Mañana Actual</label>
+            <input type="text" readonly 
+                value="{% if schedules.get('mañana') %}{{ schedules['mañana']['start'] }} - {{ schedules['mañana']['end'] }}{% endif %}" 
+                class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label class="block mb-1">Horario Tarde Actual</label>
+            <input type="text" readonly 
+                value="{% if schedules.get('tarde') %}{{ schedules['tarde']['start'] }} - {{ schedules['tarde']['end'] }}{% endif %}" 
+                class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+    </div>
+
+        <!-- Selects para modificar -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4">
+
+            <div>
+                <label for="morningStartTime" class="block mb-1">Inicio Mañana</label>
+                <select id="morningStartTime" name="morningStartTime" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                    {% for h in range(6, 12) %}
+                        {% for m in (0, 30) %}
+                            <option value="{{ "%02d:%02d"|format(h, m) }}">{{ "%02d:%02d"|format(h, m) }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="morningEndtime" class="block mb-1">Fin Mañana</label>
+                <select id="morningEndtime" name="morningEndtime" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                    {% for h in range(6, 12) %}
+                        {% for m in (0, 30) %}
+                            <option value="{{ "%02d:%02d"|format(h, m) }}">{{ "%02d:%02d"|format(h, m) }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="afternoonStartTime" class="block mb-1">Inicio Tarde</label>
+                <select id="afternoonStartTime" name="afternoonStartTime" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                    {% for h in range(12, 18) %}
+                        {% for m in (0, 30) %}
+                            <option value="{{ "%02d:%02d"|format(h, m) }}">{{ "%02d:%02d"|format(h, m) }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="afternoonEndTime" class="block mb-1">Fin Tarde</label>
+                <select id="afternoonEndTime" name="afternoonEndTime" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+                    {% for h in range(12, 18) %}
+                        {% for m in (0, 30) %}
+                           <option value="{{ "%02d:%02d"|format(h, m) }}">{{ "%02d:%02d"|format(h, m) }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Botón guardar -->
+    <div class="w-full mt-8 flex justify-center">
+        <button type="submit" class="bg-primary text-black py-3 px-6 rounded hover:bg-primary-hover transition">Guardar cambios</button>
+    </div>
+
+</form>
+
+<!--<script src="{{ url_for('static', filename='js/empresa_config.js') }}"></script>-->
+
+<script src="{{ url_for('static', filename='js/image_preview.js') }}"></script>
+
+
+{% endblock %}

@@ -1,0 +1,26 @@
+<div class="bg-[#1a1a1a] p-4 rounded shadow h-full flex flex-col justify-between relative hover:ring-2 hover:ring-primary transition space-y-4">
+
+    <div class="space-y-2">
+        <h3 class="text-lg font-bold text-primary">{{ service['name'] }}</h3>
+        <p class="text-gray-400 text-sm">{{ service['description'] }}</p>
+        <p class="text-gray-300 text-sm">Duración: <span class="font-medium">{{ service['duration'] }} min</span></p>
+        <p class="text-gray-300 text-sm">Precio: <span class="font-medium">${{ service['price'] }}</span></p>
+
+        {% if service['turnos'] %}
+        <div class="mt-2">
+            <span class="inline-block border border-primary text-primary text-xs font-semibold px-2 py-1 rounded">
+                {{ service['turnos'] }}
+            </span>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="flex justify-end">
+        <a href="{{ url_for('schedule_appointment.schedule_appointment', service_id=service['id']) }}" 
+   class="bg-primary hover:bg-primary-hover text-black font-semibold py-2 px-4 rounded transition">
+    Agendar cita
+</a>
+    </div>
+
+</div>
+

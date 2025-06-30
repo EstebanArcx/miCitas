@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  {% include './fragments/head.html' %}
+</head>
+
+<body class="flex flex-col min-h-screen relative px-4 bg-black text-white font-[Nunito] overflow-hidden">
+
+<!-- Círculo grande izquierda superior -->
+<div class="absolute top-[10%] left-[5%] w-[200px] h-[200px] bg-primary rounded-full opacity-10 animate-breathing-lg"></div>
+
+<!-- Círculo medio derecha superior -->
+<div class="absolute top-[20%] right-[8%] w-[130px] h-[130px] bg-accent-bg rounded-full opacity-10 animate-breathing-md delay-150"></div>
+
+<!-- Círculo grande centro inferior desplazado -->
+<div class="absolute bottom-[15%] left-[45%] w-[250px] h-[250px] bg-white rounded-full opacity-10 animate-breathing-lg delay-300"></div>
+
+<!-- Círculo pequeño izquierda inferior -->
+<div class="absolute bottom-[25%] left-[10%] w-[90px] h-[90px] bg-primary rounded-full opacity-10 animate-breathing-sm delay-450"></div>
+
+<!-- Círculo medio derecha centro -->
+<div class="absolute top-[50%] right-[15%] w-[150px] h-[150px] bg-accent-bg rounded-full opacity-10 animate-breathing-md delay-200"></div>
+
+<!-- Círculo pequeño derecha inferior -->
+<div class="absolute bottom-[10%] right-[10%] w-[70px] h-[70px] bg-white rounded-full opacity-10 animate-breathing-sm delay-500"></div>
+
+  <!-- Contenido principal -->
+  <main class="flex-1 flex items-center justify-center z-10">
+    <div class="bg-[#1a1a1a] p-6 sm:p-8 rounded shadow-lg text-center w-full max-w-xs sm:max-w-md">
+      <img src="{{ url_for('static', filename='imgs/logo-back.png') }}" alt="Logo" class="w-full h-24 sm:h-32 object-contain mb-5 mx-auto">
+
+      <h2 class="text-xl sm:text-2xl font-bold text-white mb-6">
+        ¿Qué tipo de cuenta desea Registrar?
+      </h2>
+
+      <div class="flex justify-center gap-3 sm:gap-4 flex-wrap">
+        <a href="/user_registration"
+           class="bg-primary text-black font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded hover:bg-accent-bg min-w-[120px] text-sm sm:text-base text-center">
+          Usuario
+        </a>
+        <a href="/company_registration"
+           class="bg-primary text-black font-semibold py-2 sm:py-3 px-4 sm:px-6 rounded hover:bg-accent-bg min-w-[120px] text-sm sm:text-base text-center">
+          Empresa
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  {% include '/fragments/copyright.html' %}
+
+</body>
+</html>

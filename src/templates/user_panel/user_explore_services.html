@@ -1,0 +1,74 @@
+{% extends '/bases/base_dashboard.html' %}
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_user.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_user.html' %}
+{% endblock %}
+
+{% block contenido %}
+
+<header class="px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+        
+        <!-- Botón regresar -->
+        <a href="{{ url_for('user_explore.user_explore') }}"
+            class="flex items-center justify-center w-10 h-10 rounded-full bg-[#1a1a1a] border border-accent hover:bg-accent hover:text-black transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </a>
+
+        <!-- Nombre de la empresa -->
+        <h1 class="text-2xl font-bold text-white">Servicios de {{ empresa['nombre'] }}</h1>
+    </div>
+</header>
+
+
+<div class="bg-[#1a1a1a] p-4 rounded shadow mb-6 space-y-4">
+
+    <!-- Grid de dos columnas: Info | Imagen -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+
+        <!-- Información -->
+        <div class="space-y-2">
+            <p><span class="font-bold text-primary">Tipo:</span> {{ empresa['tipo'] }}</p>
+            <p><span class="font-bold text-primary">Dirección:</span> {{ empresa['direccion'] }}</p>
+        </div>
+
+        <!-- Imagen alineada a la derecha y centrada verticalmente -->
+        <div class="flex justify-end items-center h-full">
+            <div class="w-24 h-24 rounded-full overflow-hidden border border-primary hover:brightness-110 transition">
+                <img src="{{ url_for('static', filename='imgs/company_imgs/' ~ empresa['img_perfil']) if empresa['img_perfil'] else '/static/imgs/company_imgs/placeholder_business.png' }}" 
+                     class="object-cover w-full h-full" alt="Perfil Empresa">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Horarios de Atención -->
+    <div>
+        <h3 class="text-lg font-semibold mb-2 text-primary">Horarios de Atención:</h3>
+        
+        {% if horarios %}
+            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                {% if 'mañana' in horarios %}
+                <li><span class="text-primary">Mañana:</span> {{ horarios['mañana'] }}</li>
+                {% endif %}
+                {% if 'tarde' in horarios %}
+                <li><span class="text-primary">Tarde:</span> {{ horarios['tarde'] }}</li>
+                {% endif %}
+            </ul>
+        {% else %}
+            <p class="text-gray-400">Este negocio no tiene horarios de atención configurados.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+
+
+{% include 'fragments/services_show.html' %}
+
+{% endblock %}

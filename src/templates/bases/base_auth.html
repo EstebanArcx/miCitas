@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  {% include '/fragments/head.html' %}
+</head>
+<body class="bg-black text-white min-h-screen w-full flex flex-col md:flex-row font-[Nunito] relative overflow-hidden">
+
+  <!-- Botón Cerrar -->
+  <a href="/" class="absolute top-4 right-4 text-gray-400 hover:text-primary text-2xl font-bold z-50">
+    &times;
+  </a>
+
+  <!-- LADO IZQUIERDO (Solo visible en pantallas grandes) -->
+  <div class="hidden md:flex w-1/2 relative items-center justify-center bg-gradient-to-br from-[#0f2e2b] via-primary to-[#0f2e2b] p-10 overflow-hidden">
+    
+    <!-- CÍRCULOS ANIMADOS -->
+    <div class="absolute top-[10%] left-[10%] w-[200px] h-[200px] bg-primary rounded-full opacity-10 animate-breathing-lg"></div>
+    <div class="absolute bottom-[20%] right-[20%] w-[150px] h-[150px] bg-accent-bg rounded-full opacity-10 animate-breathing-md delay-200"></div>
+    <div class="absolute bottom-[10%] left-[30%] w-[100px] h-[100px] bg-white rounded-full opacity-10 animate-breathing-sm delay-400"></div>
+
+    <!-- CONTENIDO IZQUIERDO -->
+    <div class="text-center z-10">
+
+      {% if mode == 'company' %}
+        <h2 class="text-3xl font-bold mb-4">Haz crecer tu negocio<br>con organización.</h2>
+        <p class="mt-4 text-sm text-gray-200">Registra tu empresa y empieza a recibir citas fácilmente.</p>
+
+      {% elif mode == 'user' %}
+        <h2 class="text-3xl font-bold mb-4">Regístrate y<br>organiza tu tiempo.</h2>
+      <p class="mt-4 text-sm text-gray-200">Haz tus reservas con facilidad y seguridad.</p>
+
+     {% elif mode == 'login' %}
+      <div class="h-[10rem] overflow-hidden relative text-center">
+        <div class="animate-slide-mensajes">
+
+          <div class="h-[10rem] flex flex-col items-center justify-center">
+            <h2 class="text-3xl font-bold mb-2">Accede a tus citas,<br>desde donde estés.</h2>
+            <p class="text-sm text-gray-200">Tus citas, en un solo lugar.</p>
+          </div>
+
+          <div class="h-[10rem] flex flex-col items-center justify-center">
+            <h2 class="text-3xl font-bold mb-2">Gestiona tu empresa<br>con eficiencia.</h2>
+            <p class="text-sm text-gray-200">Tus clientes, tus horarios, en un solo lugar.</p>
+          </div>
+
+        </div>
+      </div>
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+  <!-- LADO DERECHO (Contenido principal) -->
+  <div class="w-full md:w-1/2 bg-[#1a1a1a] flex flex-col items-center justify-between p-8 relative min-h-screen">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-4 space-y-2">
+          {% for category, message in messages %}
+            <div class="p-3 rounded text-white
+              {% if category == 'success' %} bg-green-600
+              {% elif category == 'danger' %} bg-red-600
+              {% else %} bg-gray-600 {% endif %}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% include '/fragments/copyright.html' %}
+  </div>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

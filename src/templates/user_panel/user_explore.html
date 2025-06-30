@@ -1,0 +1,15 @@
+{% extends '/bases/base_dashboard.html' %}
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_user.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_user.html' %}
+{% endblock %}
+
+{% block contenido %}
+
+<h2 class="text-2xl font-bold text-white mb-6">Explorar Negocios</h2>
+
+{% include 'fragments/company_show.html' %}
+
+{% endblock %}

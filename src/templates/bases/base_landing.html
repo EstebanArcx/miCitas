@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  {% include '/fragments/head.html' %}
+</head>
+
+<body class="font-[Nunito] bg-black text-white">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-6 py-4 bg-black shadow-md flex-wrap relative">
+    <a href="/" class="flex items-center">
+      <img src="{{ url_for('static', filename='imgs/logo-back.png') }}" alt="MiAgenda Logo" class="h-10">
+    </a>
+    <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <nav id="menu" class="absolute top-full left-0 w-full bg-black p-4 flex flex-col space-y-4 hidden md:static md:flex md:flex-row md:items-center md:space-y-0 md:space-x-4 md:w-auto md:bg-transparent md:p-0">
+      <a href="#" class="text-white hover:text-primary-hover">Productos</a>
+      <a href="#" class="text-white hover:text-primary-hover">Soluciones</a>
+      <a href="#" class="text-white hover:text-primary-hover">Precios</a>
+      <a href="#" class="text-white hover:text-primary-hover">Recursos</a>
+      <a href="/login" class="bg-primary px-4 py-2 text-white rounded hover:bg-primary-hover">Iniciar sesión</a>
+      <a href="/choose_rol?accion=registro" class="border border-primary px-4 py-2 text-primary rounded hover:bg-primary hover:text-white">Registrarse</a>
+    </nav>
+  </header>
+
+  <!-- Contenido dinámico -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#111] text-white px-6 pt-12 pb-6 text-sm z-10 w-full mt-12">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-10 border-b border-gray-700 pb-10">
+      <div>
+        <img src="{{ url_for('static', filename='imgs/logo-back.png') }}" alt="Logo de Micitas" class="mx-auto">
+        <p class="text-sm text-center text-gray-400">Tus citas a un clic de distancia</p>
+      </div>
+      <div>
+        <h3 class="font-bold mb-3">Contacto</h3>
+        <ul class="text-gray-400 space-y-2">
+          <li><i class="fas fa-envelope"></i> contacto@micitas.com</li>
+          <li><i class="fas fa-phone"></i> Colombia: +57 1 234 5678</li>
+          <li>Micitas Inc</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-3">Explora</h3>
+        <ul class="text-gray-400 space-y-2">
+          <li><a href="#" class="hover:text-primary">Blog</a></li>
+          <li><a href="#" class="hover:text-primary">Centro de ayuda</a></li>
+          <li><a href="#" class="hover:text-primary">Términos y condiciones</a></li>
+          <li><a href="#" class="hover:text-primary">Política de privacidad</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-bold mb-3">Suscríbete</h3>
+        <form class="flex flex-col space-y-2">
+          <input type="email" placeholder="Déjanos tu email" class="px-4 py-2 rounded bg-[#1a1a1a] text-white placeholder-gray-500 focus:ring-2 focus:ring-primary">
+          <button type="submit" class="bg-primary hover:bg-accent-bg text-black py-2 rounded font-semibold">Suscribirme</button>
+        </form>
+      </div>
+    </div>
+
+    <!--Copyright-->
+    {% include '/fragments/copyright.html' %}
+
+  </footer>
+
+  <script>
+    document.getElementById('menu-btn').addEventListener('click', () => {
+      document.getElementById('menu').classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>

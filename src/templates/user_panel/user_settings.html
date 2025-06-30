@@ -1,0 +1,90 @@
+{% extends '/bases/base_dashboard.html' %}
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_user.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_user.html' %}
+{% endblock %}
+
+{% block contenido %}
+
+<h2 class="text-2xl font-bold text-white mb-6">Configuración del Usuario</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="mb-4 space-y-2" id="flash-messages">
+      {% for category, message in messages %}
+        <div class="p-3 rounded text-white relative transition-opacity duration-500
+          {% if category == 'success' %} bg-green-600
+          {% elif category == 'danger' %} bg-red-600
+          {% else %} bg-gray-600 {% endif %}">
+          {{ message }}
+          <button class="absolute top-1 right-2 text-white text-sm close-flash">✖</button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<!-- Formulario de Imagen de Perfil -->
+<form method="POST" enctype="multipart/form-data" class="space-y-4 w-full" action="{{ url_for('user_settings.update_image') }}">
+    
+    <div class="flex flex-col items-center space-y-4">
+
+    <div class="w-32 h-32 rounded-full overflow-hidden border border-primary flex items-center justify-center">
+        <img id="previewUserImg" 
+             src="{{ url_for('static', filename='imgs/user_imgs/' ~ user['img_perfil']) if user['img_perfil'] else '/static/imgs/user_imgs/placeholder_profile.png' }}" 
+             class="object-cover w-full h-full" alt="Perfil">
+    </div>
+
+    <label class="border border-primary cursor-pointer text-primary rounded hover:bg-primary hover:text-black px-3 py-1 text-sm transition">
+        Elegir imagen
+       <input type="file" name="img_perfil" accept="image/*" class="hidden" onchange="previewImage(this, 'previewUserImg')">
+
+    </label>
+
+    <button type="submit" name="action" value="update_img" 
+            class="bg-primary hover:bg-accent text-black font-semibold py-2 px-4 rounded w-full sm:w-auto">
+        Guardar Imagen
+    </button>
+
+</div>
+
+</form>
+
+<!-- Formulario de Datos Personales -->
+<form method="POST" class="space-y-8 w-full">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+
+        <div>
+            <label for="name" class="block mb-1">Nombre</label>
+            <input type="text" id="name" name="name" value="{{ user['nombre'] }}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label for="email" class="block mb-1">Correo electrónico</label>
+            <input type="email" id="email" name="email" value="{{ user['correo'] }}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label for="telephone" class="block mb-1">Teléfono</label>
+            <input type="tel" id="telephone" name="telephone" value="{{ user['telefono'] or '' }}" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+        <div>
+            <label for="password" class="block mb-1">Cambiar contraseña</label>
+            <input type="password" id="password" name="password" placeholder="Opcional" class="w-full p-3 rounded bg-[#1a1a1a] border border-accent-form text-white">
+        </div>
+
+    </div>
+
+    <div class="w-full mt-8 flex justify-center">
+        <button type="submit" class="bg-primary text-black py-3 px-6 rounded hover:bg-primary-hover transition">Guardar cambios</button>
+    </div>
+
+</form>
+
+<script src="{{ url_for('static', filename='js/image_preview.js') }}"></script>
+
+{% endblock %}

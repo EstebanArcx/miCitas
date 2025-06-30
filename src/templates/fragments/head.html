@@ -1,0 +1,13 @@
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>{{ head_title + " - Micitas" if head_title else 'Micitas' }}</title>
+<link rel="icon" href="{{ url_for('static', filename='imgs/icon.png') }}" type="image/x-icon">
+
+<!-- Tailwind compilado -->
+<link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+
+<!-- Fuente externa -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">

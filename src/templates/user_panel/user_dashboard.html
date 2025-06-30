@@ -1,0 +1,40 @@
+{% extends '/bases/base_dashboard.html' %}
+
+
+{% set sidebar_fragment = 'fragments/sidebar_opc_user.html' %}
+
+{% block sidebar_opciones %}
+  {% include 'fragments/sidebar_opc_user.html' %}
+{% endblock %}
+
+
+
+{% block contenido %}
+
+<h2 class="text-2xl font-bold text-primary mb-4">Panel de Usuario</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+  <!-- Card Citas -->
+  <div class="bg-[#1a1a1a] p-6 rounded shadow-md hover:shadow-lg transition">
+    <h3 class="text-lg font-semibold mb-2 text-accent">Tus Citas</h3>
+    <p class="text-gray-400 mb-4">Consulta, programa o gestiona tus próximas citas.</p>
+    <a href="/user_panel/appointments" class="bg-primary hover:bg-primary-hover text-black px-4 py-2 rounded transition">Ver citas</a>
+  </div>
+
+  <!-- Card Configuración -->
+  <div class="bg-[#1a1a1a] p-6 rounded shadow-md hover:shadow-lg transition">
+    <h3 class="text-lg font-semibold mb-2 text-accent">Configuración</h3>
+    <p class="text-gray-400 mb-4">Actualiza tus datos personales o cambia tu contraseña.</p>
+    <a href="/user_panel/settings" class="bg-primary hover:bg-primary-hover text-black px-4 py-2 rounded transition">Configurar</a>
+  </div>
+
+  <!-- Card Bienvenida -->
+  <div class="bg-[#1a1a1a] p-6 rounded shadow-md hover:shadow-lg transition md:col-span-2 xl:col-span-1">
+    <h3 class="text-lg font-semibold mb-2 text-accent">¡Bienvenido {{ session['usuario_nombre'] }}!</h3>
+    <p class="text-gray-400">Gracias por confiar en Micitas. Tu espacio personal para gestionar tus citas de forma rápida y sencilla.</p>
+  </div>
+
+</div>
+
+{% endblock %}

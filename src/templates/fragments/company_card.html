@@ -1,0 +1,20 @@
+<div class="bg-[#1a1a1a] p-4 rounded shadow h-full flex flex-col justify-between relative group hover:ring-2 hover:ring-primary transition">
+    
+    <div class="h-40 w-full mb-4 rounded overflow-hidden">
+        <img src="{{ url_for('static', filename='imgs/company_imgs/' ~ empresa['img_negocio']) if empresa['img_negocio'] else '/static/imgs/company_imgs/placeholder_company.png' }}" 
+             alt="Imagen negocio" class="object-cover w-full h-full group-hover:brightness-110 transition">
+    </div>
+
+    <div>
+        <h3 class="text-lg font-bold text-primary mb-2">{{ empresa['nombre'] }}</h3>
+        <p class="text-gray-400 mb-1">{{ empresa['tipo'] }}</p>
+        <p class="text-gray-300 mb-1">{{ empresa['direccion'] }}</p>
+    </div>
+
+    <div class="flex justify-end mt-4">
+        <a href="{{ url_for('user_explore_services.user_explore_services', empresa_id=empresa['id']) }}" 
+            class="bg-primary hover:bg-primary-hover text-white font-semibold py-1 px-4 rounded">
+            Ver Servicios
+        </a>
+    </div>
+</div>
