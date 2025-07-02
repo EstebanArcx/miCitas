@@ -121,7 +121,7 @@ flask run
 
 ## 📄 Licencia
 
-Este repositorio está bajo la licencia **Apache 2.0**. Puedes utilizar, modificar y distribuir este material libremente, incluso para fines comerciales, siempre que mantengas los avisos de copyright y de licencia correspondientes. No se ofrecen garantías. Si compartes o distribuyes este trabajo, se agradece que cites este repositorio como fuente.
+Este repositorio está bajo la licencia **Apache 2.0**. Puedes utilizar, modificar y distribuir este material libremente, incluso para fines comerciales, siempre que mantengas los avisos de copyright y de licencia correspondientes. Si compartes o distribuyes este trabajo, se agradece que cites este repositorio como fuente.
 
 ## 📧 Contacto
 
